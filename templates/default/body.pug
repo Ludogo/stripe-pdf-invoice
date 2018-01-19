@@ -1,5 +1,5 @@
 -
-  date_formatted = moment.unix(date).locale(language).format(date_format);
+  date_formatted = moment.unix(created).locale(language).format(date_format);
   due_date_formatted = (due_days && !isNaN(due_days)) ? moment.unix(date).add(due_days, 'day').locale(language).format(date_format) : date_formatted;
 
   company_logo_path = company_logo ? path.resolve(company_logo.toString()) : null;
@@ -8,20 +8,29 @@
     logo_height = dimensions.height*(300/dimensions.width);
   }
 
-  total = (total/100).toFixed(2);
+  total = (amount/100).toFixed(2);
+  subtotal =  order.items.reduce(function(accumulator, current){
+    if(current.type != "tax"){
+      accumulator += current.amount;
+    }
+    return accumulator;
+  },0);
   subtotal = (subtotal/100).toFixed(2);
-  tax_percent = tax_percent || 0;
 
-  lines.data.forEach(line => {
-    line.price = (line.type == 'subscription') ? (line.plan.amount/100).toFixed(2) : (line.amount/100).toFixed(2);
-    line.amount = (line.amount/100).toFixed(2);
-    if(!line.description && line.type == 'subscription') {
-      line.description = ((line.quantity > 1) ? line.quantity + ' * ' : '') + line.plan.name;
-      if(line.period) {
-        line.period.start = moment.unix(line.period.start).locale(language).format(date_format);
-        line.period.end = moment.unix(line.period.end).locale(language).format(date_format);
-        line.description += ' ' + line.period.start + ' - ' + line.period.end;
-      }
+  tax_percent = order.items.find(function(item){
+    if(item.type == "tax"){
+      return item.amount;
+    } 
+  }) || 20;
+
+  order.items.forEach(line => {
+    line.price = (line.amount/100).toFixed(2);
+    line.amount = line.quantity * (line.amount/100).toFixed(2);
+    if(!line.quantity){
+      line.quantity = 0;
+    }
+    if(!line.description) {
+      line.description = ((line.quantity > 1) ? line.quantity + ' * ' : '');      
     }
   });
 doctype
@@ -33,7 +42,7 @@ html.no-js
     meta(name='description', content='')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     each sheet in css
-      link(rel='stylesheet', href=sheet, type='text/css')
+      link(rel='stylesheet', href=sheet, type='text/css', media='all')
     style
       if color
         | .total h1 {
@@ -58,7 +67,7 @@ html.no-js
                   .logo
             .row
               .columns.upper.invoice
-                | #{label_invoice} ##{number}
+                | #{label_invoice} ##{id}
           .small-2.columns
             .row
               .columns.date
@@ -118,7 +127,7 @@ html.no-js
               .small-1.columns.component-title #{label_unit}
               .small-2.columns.component-title #{label_price}
               .small-2.columns.component-title #{label_amount}
-              each line in lines.data
+              each line in order.items
                 .row
                   .small-7.columns #{line.description || 'Item description'}
                   .small-1.columns #{line.quantity}
@@ -188,12 +197,7 @@ html.no-js
               .columns.num
                 | ##{number}
           .small-3.columns
-            .row
-              .columns.component-title
-                | #{label_invoice_due_date}
-            .row.white-small
-              .columns
-                | #{due_date_formatted}
+            
             if receipt_number
               .row
                 .columns.component-title
