@@ -10,10 +10,16 @@ const template = require(`./templates/default`);
 
 module.exports = (key, config = {}) => async (invoiceId, data = {}) => {
   const stripe = new Stripe(key);
-  if(!invoiceId) {
+  if (!invoiceId) {
     throw new Error('missing_invoice_id');
   }
-  const invoice = await stripe.invoices.retrieve(invoiceId);
+
+  //get charge instead of an invoice
+  const invoice = await stripe.charges.retrieve(invoiceId);
+  //get related order if any
+  if (invoice.order) {
+    invoice.order = await stripe.orders.retrieve(invoice.order);
+  }
   const tpld = template(Object.assign({
     currency_symbol: '$',
     label_invoice: 'invoice',
@@ -42,10 +48,11 @@ module.exports = (key, config = {}) => async (invoiceId, data = {}) => {
     currency_position_before: true,
     language: 'en',
   }, invoice, config, data));
-  return wkhtmltopdf(pug.compileFile(tpld.body)(Object.assign(tpld.data, {
+  const pugRes = pug.compileFile(tpld.body)(Object.assign(tpld.data, {
     moment,
     path,
     fs,
     sizeOf
-  })), { pageSize: 'letter' });
+  }));
+  return wkhtmltopdf(pugRes, { pageSize: 'A4' , "enable-smart-shrinking":true, "viewport-size":"1920x1200" });
 }

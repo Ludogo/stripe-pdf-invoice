@@ -8,6 +8,7 @@
 
   - Breaking changes
   - Support for async/await is needed (Node 7.6)
+  - Huge modification to generate invoice from a charge with related order. Aims is to gat and export of the paiement tab from stripe UI.
 
 ## Install ##
 Install the [wkhtmltopdf executable](http://wkhtmltopdf.org/downloads.html)

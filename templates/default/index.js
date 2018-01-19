@@ -6,8 +6,8 @@ module.exports = function(data) {
     data: Object.assign(data, {
       require: { moment },
       css: [
-        path.resolve(`${__dirname}/css/style.css`),
         path.resolve(`${__dirname}/css/foundation.min.css`),
+        path.resolve(`${__dirname}/css/style.css`)        
       ]
     }),
     body: path.resolve(`${__dirname}/body.pug`),

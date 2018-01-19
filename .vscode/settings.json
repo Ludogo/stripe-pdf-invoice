@@ -1,0 +1,4 @@
+{
+    "mocha.enabled": true,
+    "mocha.nodeExec": "${workspaceRoot}/node_modules/mocha/bin/mocha"
+}

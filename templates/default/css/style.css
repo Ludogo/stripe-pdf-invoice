@@ -76,3 +76,10 @@
   padding-top: 15px;
   font-size: 13px;
 }
+
+.row .invoice-body{
+  width: 100%!important;
+}
+
+
+
