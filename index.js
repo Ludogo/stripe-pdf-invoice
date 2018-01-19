@@ -5,7 +5,6 @@ const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
 const sizeOf = require('image-size');
-const pdf = require('html-pdf');
 
 const template = require(`./templates/default`);
 

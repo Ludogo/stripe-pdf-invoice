@@ -12,6 +12,8 @@
 
 ## Install ##
 Install the [wkhtmltopdf executable](http://wkhtmltopdf.org/downloads.html)
+And **DO NOT USE PACKAGE INSTALLATION OF DISTRIBUTION**
+Copy binaries into /usr/bin or add to PATH: __/installation_path/bin
 
 ```
     npm install stripe-pdf-invoice
