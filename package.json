@@ -1,5 +1,5 @@
 {
-  "name": "stripe-pdf-invoice",
+  "name": "stripe-pdf-charge",
   "version": "2.0.2",
   "main": "index.js",
   "license": "MIT",
@@ -7,21 +7,21 @@
     "bluebird": "^3.5.0",
     "image-size": "^0.6.1",
     "moment": "^2.18.1",
-    "pug": "^2.0.0-beta9",
+    "pug": "^2.0.0-rc.4",
     "stripe": "^4.24.0",
     "wkhtmltopdf": "^0.3.3"
   },
-  "description": "Stripe PDF invoice generator",
+  "description": "Stripe PDF invoice generator for charges",
   "author": {
-    "name": "Jonathan Asquier",
-    "email": "jonathan.asquier@gmail.com"
+    "name": "Ludovic Godrant",
+    "email": "ludovic.godrant@gg-io.com"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:jonathanasquier/stripe-pdf-invoice.git"
+    "url": "git@github.com:Ludogo/stripe-pdf-invoice"
   },
   "bugs": {
-    "url": "https://github.com/jonathanasquier/stripe-pdf-invoice/issues"
+    "url": "https://github.com/Ludogo/stripe-pdf-invoice/issues"
   },
   "devDependencies": {
     "mocha": "^5.0.0"

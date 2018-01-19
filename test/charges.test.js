@@ -4,7 +4,7 @@ describe('General test', function () {
     it('Execute pdf generation on existing charge with order', async function () {
 
         const invoice_id = 'ch_1Blg0sBBh3le1kgVPJTctLkm';
-        const stripe_key = 'sk_test_clsNsqBEv79ZbAql7w1OTJoc';
+        const stripe_key = 'XXXXXXXXXXXX';
 
         const fs = require('fs');
         const path = require('path');

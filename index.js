@@ -5,6 +5,7 @@ const moment = require('moment');
 const path = require('path');
 const fs = require('fs');
 const sizeOf = require('image-size');
+const pdf = require('html-pdf');
 
 const template = require(`./templates/default`);
 
@@ -54,5 +55,6 @@ module.exports = (key, config = {}) => async (invoiceId, data = {}) => {
     fs,
     sizeOf
   }));
-  return wkhtmltopdf(pugRes, { pageSize: 'A4' , "enable-smart-shrinking":true, "viewport-size":"1920x1200" });
+  return wkhtmltopdf(pugRes, { pageSize: 'A4' });
+ 
 }

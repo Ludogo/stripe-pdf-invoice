@@ -8,8 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Unit tests",
-            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
-            "stopOnEntry": true,
+            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",            
             "args": [
                 "-u",
                 "tdd",
