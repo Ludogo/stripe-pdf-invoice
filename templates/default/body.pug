@@ -23,7 +23,7 @@
     } 
   }) || 20;
 
-  order.items.forEach(line => {
+  order.items = order.items.filter(line => line.type !="shipping").map(line => {
     line.price = (line.amount/100).toFixed(2);
     line.amount = line.quantity * (line.amount/100).toFixed(2);
     if(!line.quantity){
@@ -32,6 +32,7 @@
     if(!line.description) {
       line.description = ((line.quantity > 1) ? line.quantity + ' * ' : '');      
     }
+    return line;
   });
 doctype
 html.no-js
