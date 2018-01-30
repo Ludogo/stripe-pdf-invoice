@@ -9,9 +9,13 @@
   }
 
   total = (amount/100).toFixed(2);
+  vatAmount = 0;
   subtotal =  order.items.reduce(function(accumulator, current){
     if(current.type != "tax"){
       accumulator += current.amount;
+    }
+    else{
+      vatAmount = (current.amount / 100).toFixed(2);
     }
     return accumulator;
   },0);
@@ -21,9 +25,9 @@
     if(item.type == "tax"){
       return item.amount;
     } 
-  }) || 20;
+  })[0] || 20;
 
-  order.items = order.items.filter(line => line.type !="shipping").map(line => {
+  order.items = order.items.filter(line => line.type !="shipping" && line.type !="tax" ).map(line => {
     line.price = (line.amount/100).toFixed(2);
     line.amount = line.quantity * (line.amount/100).toFixed(2);
     if(!line.quantity){
@@ -153,8 +157,8 @@ html.no-js
             if !currency_position_before
               | #{currency_symbol}
         .row
-          .small-10.columns.upper #{label_vat}
-          .small-2.columns.num #{tax_percent}%
+          .small-10.columns.upper #{label_vat} (#{tax_percent}%)
+          .small-2.columns.num #{vatAmount}#{currency_symbol}
         .row.total-line.upper
           .small-10.columns #{label_total}
           .small-2.columns.num
