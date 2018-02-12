@@ -19,7 +19,36 @@ module.exports = (key, config = {}) => async (invoiceId, data = {}) => {
   //get related order if any
   if (invoice.order) {
     invoice.order = await stripe.orders.retrieve(invoice.order);
+  } else {
+    //no associated charge so add item with data to add to invoice body
+    let noTaxAmount = invoice.amount / 1.2;   
+ 
+    invoice.order = {
+      items:
+        [
+          {
+            amount: noTaxAmount,
+            currency: invoice.currency,
+            description: invoice.description,
+            parent: null,
+            object: "order_item",
+            quantity: 1,
+            type: "sku"
+          },
+          {
+            amount: invoice.amount - noTaxAmount,
+            currency: invoice.currency,
+            description:"Taxes (included)",
+            parent: null,
+            object: "order_item",
+            quantity: 1,
+            type: "tax"
+          },
+        ]
+
+    }
   }
+
   const tpld = template(Object.assign({
     currency_symbol: '$',
     label_invoice: 'invoice',
@@ -55,5 +84,5 @@ module.exports = (key, config = {}) => async (invoiceId, data = {}) => {
     sizeOf
   }));
   return wkhtmltopdf(pugRes, { pageSize: 'A4' });
- 
+
 }

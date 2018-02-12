@@ -3,8 +3,8 @@ var assert = require('assert');
 describe('General test', function () {
     it('Execute pdf generation on existing charge with order', async function () {
 
-        const invoice_id = 'ch_1Blg0sBBh3le1kgVPJTctLkm';
-        const stripe_key = 'XXXXXXXXXXXX';
+        const invoice_id = 'ch_1BtgXXBBh3le1kgVpyWN6qzQ';
+        const stripe_key = 'XXXXXXXX';
 
         const fs = require('fs');
         const path = require('path');
